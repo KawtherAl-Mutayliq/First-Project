@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">To Do List Application</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="type_list">
+        <item>All</item>
+        <item>Personal</item>
+        <item>Shopping</item>
+        <item>Exercise</item>
+        <item>Work</item>
+        <item>Learning</item>
+
+    </string-array>
+</resources>
