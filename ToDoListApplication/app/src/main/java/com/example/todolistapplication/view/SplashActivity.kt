@@ -11,16 +11,19 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        // intent betweem activities
         var intent = Intent(this, MainActivity::class.java)
+
+        // hide the action bar of splash screen
         supportActionBar?.hide()
 
+        // count down timer to display splash screen
         object : CountDownTimer(2000, 1000){
             override fun onTick(p0: Long) {
             }
 
             override fun onFinish() {
                 startActivity(intent)
-
             }
         }.start()
     }

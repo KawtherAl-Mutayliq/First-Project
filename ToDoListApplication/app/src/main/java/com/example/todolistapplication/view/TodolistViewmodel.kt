@@ -15,9 +15,9 @@ class TodolistViewmodel: ViewModel() {
 
     var selectItemMutableLiveData = MutableLiveData<ToDolistModel>()
 
-    fun  addTask(title: String,type:String, description: String, date:String,time:String){
+    fun  addTask(title: String,type:String, description: String, date:String,time:String, dateCreation:String){
         viewModelScope.launch {
-            toDolistRepository.addTask(ToDolistModel( title,type, description, date,time))
+            toDolistRepository.addTask(ToDolistModel( title,type, description, date,time, dateCreation))
         }
     }
 

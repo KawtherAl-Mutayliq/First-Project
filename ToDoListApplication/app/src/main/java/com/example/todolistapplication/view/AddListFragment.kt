@@ -1,5 +1,6 @@
 package com.example.todolistapplication.view
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todolistapplication.R
@@ -27,6 +27,7 @@ class AddListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_list, container, false)
     }
 
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,6 +40,11 @@ class AddListFragment : Fragment() {
         val dateButton: ImageButton = view.findViewById(R.id.date_ImageButton)
         val saveButton: Button = view.findViewById(R.id.save_button)
         val cancelButton: Button = view.findViewById(R.id.cancelAdd_button)
+
+        // to get creation date
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+
 
         // spinner for display the type of tasks
         val spinnerType: Spinner = view.findViewById(R.id.spinner_list)
@@ -59,10 +65,12 @@ class AddListFragment : Fragment() {
 
 
          // create date picker dialog and put the test into date EditText
-         val dpd = DatePickerDialog(view.context, DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                dateText.setText("" + day + "/" + month + "/" + year)
-            }, year, month, day)
-            dpd.show() }
+         val dpd = DatePickerDialog(view.context, DatePickerDialog.OnDateSetListener
+         { view, year, month, day ->
+             // display date in edit text
+           dateText.setText("" + day + "/" + (month.toInt() +1).toString()  + "/" + year) }, year, month, day)
+            dpd.show()
+        }
 
 
         // button for display time
@@ -71,29 +79,35 @@ class AddListFragment : Fragment() {
            val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hour, minute ->
                calendar.set(Calendar.HOUR_OF_DAY, hour)
                calendar.set(Calendar.MINUTE, minute)
-               timeText.setText( SimpleDateFormat("HH:mm").format(calendar.time))
+               // display time in edit text
+               timeText.setText( SimpleDateFormat("HH:mm a").format(calendar.time))
            }
             TimePickerDialog(view.context, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE), false).show()
         }
 
+
         // button to save data in database
         saveButton.setOnClickListener {
             val title = titleText.text.toString()
-            val descrition = descriptionText.text.toString()
+            val description = descriptionText.text.toString()
             val date = dateText.text.toString()
             val time = timeText.text.toString()
             val type = spinnerType.selectedItem.toString()
 
-            // calling addTask function from database by viewModel
-            listViewModel.addTask(title, type, descrition, date, time)
-            findNavController().popBackStack()
+            if (title.isNotEmpty() && date.isNotEmpty()) {
+
+                // calling addTask function from database by viewModel
+                listViewModel.addTask(title, type, description, date, time, currentDate)
+                findNavController().popBackStack()
+            }else
+                Toast.makeText(context, "these Fields must not Empty", Toast.LENGTH_SHORT).show()
         }
+
 
         // button to get out from this fragment
         cancelButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-
 }

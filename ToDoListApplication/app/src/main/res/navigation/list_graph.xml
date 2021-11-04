@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.todolistapplication.view.MainFragment"
+        android:label="List Of Tasks"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_editFragment"

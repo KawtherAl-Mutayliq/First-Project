@@ -3,12 +3,15 @@ package com.example.todolistapplication.database.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
 @Entity
-data class ToDolistModel(val title: String,
-                         val type: String,
-                         val description: String,
-                         val datte: String,
-                         val time:String,
-                         val checkBox: Boolean = false,
-                         @PrimaryKey(autoGenerate = true)
-                         val id: Int = 0)
+data class ToDolistModel(
+    var title: String,
+    var type: String,
+    var description: String,
+    var datte: String,
+    var time:String,
+    var dateCreation:String,
+    var checkBox: Boolean = false,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0)
